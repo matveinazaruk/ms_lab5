@@ -6,6 +6,7 @@
 #include <linux/kobject.h>
 #include <linux/sysfs.h>
 
+#define PROC
 #define MAX_PROC_SIZE 100
 
 
@@ -103,7 +104,6 @@ static struct attribute_group attr_group = {
        .attrs = attrs,
 };
 
-
 static struct kobject *example_kobj;
 
 int read_a(char *buf,char **start,off_t offset,int count,int *eof,void *data )
@@ -125,6 +125,7 @@ int write_a(struct file *file, const char *buf, int count, void *data )
 
 	return count;
 }
+
 int read_b(char *buf,char **start,off_t offset,int count,int *eof,void *data )
 {	
 	int len=0;
@@ -179,7 +180,9 @@ int read_result(char *buf,char **start,off_t offset,int count,int *eof,void *dat
 
 void create_new_proc_entry()
 {
+	
 	int retval;
+	#ifdef PROC
 	proc_write_entry = create_proc_entry("operation",0666,NULL);
 	if (!proc_write_entry) {	
 		printk(KERN_INFO "Error creating proc entry");
@@ -213,6 +216,8 @@ void create_new_proc_entry()
 		return -ENOMEM;
 	}
 	proc_result_entry->read_proc = read_result;
+	#else
+
 	example_kobj = kobject_create_and_add("calc", kernel_kobj);
     if (!example_kobj)
             return -ENOMEM;
@@ -221,6 +226,8 @@ void create_new_proc_entry()
     retval = sysfs_create_group(example_kobj, &attr_group);
     if (retval)
             kobject_put(example_kobj);
+
+    #endif
 }
 
 
