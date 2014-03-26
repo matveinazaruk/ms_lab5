@@ -23,13 +23,13 @@ static struct proc_dir_entry *proc_result_entry;
 
 void countRes()
 {
-	if (operation == '+'){
+	if (operation == '+') {
 		result = a + b;
-	} else if (operation == '-'){
+	} else if (operation == '-') {
 		result = a - b;
-	} else if (operation == '*'){
+	} else if (operation == '*') {
 		result = a * b;
-	} else if (operation == '/'){
+	} else if (operation == '/') {
 		result = a / b;
 	}
 }
@@ -106,10 +106,9 @@ static struct attribute_group attr_group = {
 
 static struct kobject *example_kobj;
 
-int read_a(char *buf,char **start,off_t offset,int count,int *eof,void *data )
-{
-	int len=0;
-	len = sprintf(buf,"\n %d\n ",a);
+int read_a(char *buf, char **start, off_t offset, int count, int *eof, void *data) {
+	int len = 0;
+	len = sprintf(buf, "\n %d\n ", a);
 
 	return len;
 }
@@ -126,10 +125,10 @@ int write_a(struct file *file, const char *buf, int count, void *data )
 	return count;
 }
 
-int read_b(char *buf,char **start,off_t offset,int count,int *eof,void *data )
+int read_b(char *buf, char **start, off_t offset, int count, int *eof, void *data )
 {	
 	int len=0;
-	len = sprintf(buf,"\n %d\n ",b);
+	len = sprintf(buf, "\n %d\n ", b);
 	
 	return len;
 }
@@ -146,10 +145,10 @@ int write_b(struct file *file, const char *buf, int count, void *data )
 	return count;
 
 }
-int read_operation(char *buf,char **start,off_t offset,int count,int *eof,void *data )
+int read_operation(char *buf, char **start, off_t offset, int count, int *eof, void *data )
 {
-	int len=0;
-	len = sprintf(buf,"\n %c\n ",operation);
+	int len = 0;
+	len = sprintf(buf, "\n %c\n ", operation);
 
 	return len;
 }
@@ -167,12 +166,12 @@ int write_operation(struct file *file, const char *buf, int count, void *data )
 }
 
 
-int read_result(char *buf,char **start,off_t offset,int count,int *eof,void *data )
+int read_result(char *buf, char **start, off_t offset, int count, int *eof, void *data )
 {
-	int len=0;
+	int len = 0;
 
 	countRes();
-	len = sprintf(buf,"\n %d\n ",result);
+	len = sprintf(buf, "\n %d\n ", result);
 
 	return len;
 }
